@@ -7,8 +7,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Professional Spreadsheet App",
-  description: "A modern, interactive spreadsheet application built with React and TypeScript",
-    generator: 'v0.dev'
+  description: "A modern, interactive spreadsheet application built with React and TypeScript"
 }
 
 export default function RootLayout({
