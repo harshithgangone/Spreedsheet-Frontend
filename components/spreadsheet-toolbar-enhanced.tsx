@@ -9,28 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Bold,
-  Italic,
-  Underline,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Palette,
-  Type,
-  Hash,
-  Calendar,
-  Percent,
-  DollarSign,
-  Undo,
-  Redo,
-  Copy,
-  Paste,
-  Scissors,
-  ChevronDown,
-  Freeze,
-  Lock,
-} from "lucide-react"
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Palette, Type, Hash, Calendar, Percent, DollarSign, Undo, Redo, Copy, Cast as Paste, Scissors, ChevronDown, Trees as Freeze, Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface SpreadsheetToolbarEnhancedProps {
