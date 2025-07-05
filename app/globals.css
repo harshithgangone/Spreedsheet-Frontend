@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom green colors for spreadsheet */
+.bg-green-25 {
+  background-color: #f0fdf4;
+}
+
+.bg-green-75 {
+  background-color: #dcfce7;
+}
+
+/* Excel-like scrollbar styling */
+.excel-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+  overflow: auto;
+}
+
+.excel-scrollbar::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.excel-scrollbar::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.excel-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border: 2px solid #f8fafc;
+  border-radius: 2px;
+}
+
+.excel-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.excel-scrollbar::-webkit-scrollbar-corner {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+/* Horizontal scrollbar for column headers */
+.excel-scrollbar-horizontal {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.excel-scrollbar-horizontal::-webkit-scrollbar {
+  height: 12px;
+}
+
+.excel-scrollbar-horizontal::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+.excel-scrollbar-horizontal::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.excel-scrollbar-horizontal::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Ensure all cells have proper borders */
+.cell-border {
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Fixed cell dimensions */
+.cell-fixed {
+  width: 96px; /* w-24 = 96px */
+  min-width: 96px;
+  max-width: 96px;
+  height: 32px; /* h-8 = 32px */
+  min-height: 32px;
+  max-height: 32px;
+}
+
+/* Row number column fixed width */
+.row-number-fixed {
+  width: 48px; /* w-12 = 48px */
+  min-width: 48px;
+  max-width: 48px;
+}
+
+/* Smooth scrolling */
+.excel-scrollbar {
+  scroll-behavior: smooth;
+}
+
+/* Text truncation for long content */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ensure proper grid layout */
+.excel-grid-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.excel-grid-header {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.excel-grid-body {
+  flex: 1;
+  overflow: auto;
+}
