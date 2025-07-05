@@ -356,12 +356,19 @@ export default function Home() {
         hasClipboard={hasClipboard}
       />
 
-      <FormulaBar
-        activeCell={selectedCells[0] || "A1"}
-        cellValue={getActiveCellValue()}
-        onCellUpdate={handleCellUpdate}
-        onCancel={() => {}}
-      />
+      {/* Simple Formula Bar Implementation */}
+      <div className="flex items-center border-b bg-white px-2 py-1 gap-2 min-h-[40px]">
+        <div className="flex items-center gap-2 min-w-[120px]">
+          <div className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border min-w-[60px] text-center">
+            {selectedCells[0] || "A1"}
+          </div>
+        </div>
+        <div className="flex-1 flex items-center gap-1">
+          <div className="flex-1 h-7 px-2 text-sm flex items-center bg-gray-50 rounded">
+            {getActiveCellValue() || <span className="text-gray-400">Select a cell to edit</span>}
+          </div>
+        </div>
+      </div>
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-hidden">
