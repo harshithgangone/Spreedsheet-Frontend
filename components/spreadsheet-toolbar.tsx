@@ -44,6 +44,15 @@ export function SpreadsheetToolbar({
   onExtract,
   hiddenFieldsCount = 0,
 }: SpreadsheetToolbarProps) {
+  // Make Share and New Action buttons non-functional as requested
+  const handleShare = () => {
+    // Do nothing - button should not work
+  }
+
+  const handleNewAction = () => {
+    // Do nothing - button should not work
+  }
+
   return (
     <div className="flex items-center justify-between px-2 md:px-4 py-2 bg-gray-50 border-b min-h-[50px] flex-shrink-0 overflow-x-auto">
       <div className="flex items-center space-x-1 min-w-0">
@@ -127,11 +136,13 @@ export function SpreadsheetToolbar({
             <span className="hidden lg:inline">Export</span>
           </Button>
 
+          {/* Share button - NON-FUNCTIONAL as requested */}
           <Button
             variant="ghost"
             size="sm"
-            onClick={onShare}
-            className="text-gray-600 hover:text-gray-900 hover:bg-gray-200 transition-colors h-8"
+            onClick={handleShare}
+            className="text-gray-400 cursor-not-allowed h-8"
+            disabled
           >
             <Share className="w-4 h-4 mr-1" />
             <span className="hidden lg:inline">Share</span>
@@ -158,10 +169,12 @@ export function SpreadsheetToolbar({
             <span className="hidden lg:inline">Extract</span>
           </Button>
 
+          {/* New Action button - NON-FUNCTIONAL as requested */}
           <Button
             size="sm"
-            onClick={onNewAction}
-            className="bg-green-600 hover:bg-green-700 transition-colors h-8 text-white flex-shrink-0"
+            onClick={handleNewAction}
+            className="bg-gray-300 text-gray-500 cursor-not-allowed h-8 flex-shrink-0"
+            disabled
           >
             <Plus className="w-4 h-4 mr-1" />
             <span className="hidden sm:inline">New Action</span>

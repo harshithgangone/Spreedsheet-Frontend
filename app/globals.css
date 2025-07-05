@@ -67,6 +67,36 @@
   background-color: #dcfce7;
 }
 
+/* Custom scrollbar for better Excel-like experience */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+  border: 2px solid #f8fafc;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: #f8fafc;
+}
+
 /* Excel-like scrollbar styling */
 .excel-scrollbar {
   scrollbar-width: thin;
@@ -150,6 +180,13 @@
   scroll-behavior: smooth;
 }
 
+/* Text truncation for long content */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Text alignment classes */
 .text-left {
   text-align: left;
@@ -163,52 +200,31 @@
   text-align: right;
 }
 
-/* Ensure proper grid layout */
-.excel-grid-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+/* Responsive design */
+@media (max-width: 768px) {
+  .cell-fixed {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+  }
+  
+  .row-number-fixed {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+  }
 }
 
-.excel-grid-header {
-  flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.excel-grid-body {
-  flex: 1;
-  overflow: auto;
-}
-
-/* Custom scrollbar for better Excel-like experience */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 #f8fafc;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #f8fafc;
-  border-radius: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 6px;
-  border: 2px solid #f8fafc;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-.custom-scrollbar::-webkit-scrollbar-corner {
-  background: #f8fafc;
+@media (max-width: 480px) {
+  .cell-fixed {
+    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
+  }
+  
+  .row-number-fixed {
+    width: 35px;
+    min-width: 35px;
+    max-width: 35px;
+  }
 }

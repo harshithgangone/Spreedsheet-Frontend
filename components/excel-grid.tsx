@@ -3,8 +3,10 @@
 import type React from "react"
 import { useState, useRef, useCallback, useEffect } from "react"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { GridData } from "@/lib/excel-data"
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type, Hash, Calendar, Percent, DollarSign } from "lucide-react"
 
 interface ExcelGridProps {
   gridData: GridData
@@ -268,6 +270,63 @@ export function ExcelGrid({
     )
   }
 
+  // Formatting functions
+  const handleFormatBold = () => {
+    selectedCells.forEach(cellId => {
+      const currentCell = gridData[cellId] || { value: "", type: "text", style: {} }
+      const updatedCell = {
+        ...currentCell,
+        style: {
+          ...currentCell.style,
+          bold: !currentCell.style?.bold
+        }
+      }
+      onCellUpdate(cellId, updatedCell.value)
+    })
+  }
+
+  const handleFormatItalic = () => {
+    selectedCells.forEach(cellId => {
+      const currentCell = gridData[cellId] || { value: "", type: "text", style: {} }
+      const updatedCell = {
+        ...currentCell,
+        style: {
+          ...currentCell.style,
+          italic: !currentCell.style?.italic
+        }
+      }
+      onCellUpdate(cellId, updatedCell.value)
+    })
+  }
+
+  const handleFormatUnderline = () => {
+    selectedCells.forEach(cellId => {
+      const currentCell = gridData[cellId] || { value: "", type: "text", style: {} }
+      const updatedCell = {
+        ...currentCell,
+        style: {
+          ...currentCell.style,
+          underline: !currentCell.style?.underline
+        }
+      }
+      onCellUpdate(cellId, updatedCell.value)
+    })
+  }
+
+  const handleTextAlign = (alignment: 'left' | 'center' | 'right') => {
+    selectedCells.forEach(cellId => {
+      const currentCell = gridData[cellId] || { value: "", type: "text", style: {} }
+      const updatedCell = {
+        ...currentCell,
+        style: {
+          ...currentCell.style,
+          textAlign: alignment
+        }
+      }
+      onCellUpdate(cellId, updatedCell.value)
+    })
+  }
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-white">
       {/* Cell Reference Display - Fixed at top */}
@@ -289,60 +348,199 @@ export function ExcelGrid({
         </div>
       </div>
 
-      {/* Main Grid Container */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Fixed Row Numbers Column */}
-        <div className="flex-shrink-0 bg-white border-r border-gray-300 z-20">
-          {/* Top-left corner cell */}
-          <div className="w-12 h-8 bg-gray-100 border-b border-gray-300 flex items-center justify-center">
-            <span className="text-xs font-medium text-gray-600">#</span>
+      {/* Formatting Toolbar */}
+      <div className="flex-shrink-0 bg-white border-b z-20">
+        <div className="flex items-center px-2 sm:px-4 py-2 gap-2">
+          {/* Text Formatting */}
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleFormatBold}
+              disabled={selectedCells.length === 0}
+              className={cn(
+                "h-8 w-8 p-0",
+                selectedCells.some(cellId => gridData[cellId]?.style?.bold) && "bg-blue-100 text-blue-700"
+              )}
+              title="Bold (Ctrl+B)"
+            >
+              <Bold className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleFormatItalic}
+              disabled={selectedCells.length === 0}
+              className={cn(
+                "h-8 w-8 p-0",
+                selectedCells.some(cellId => gridData[cellId]?.style?.italic) && "bg-blue-100 text-blue-700"
+              )}
+              title="Italic (Ctrl+I)"
+            >
+              <Italic className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleFormatUnderline}
+              disabled={selectedCells.length === 0}
+              className={cn(
+                "h-8 w-8 p-0",
+                selectedCells.some(cellId => gridData[cellId]?.style?.underline) && "bg-blue-100 text-blue-700"
+              )}
+              title="Underline (Ctrl+U)"
+            >
+              <Underline className="h-4 w-4" />
+            </Button>
           </div>
-          
-          {/* Row numbers - scrollable vertically */}
-          <div className="overflow-y-auto h-full" style={{ height: 'calc(100vh - 200px)' }}>
-            {Array.from({ length: totalRows }, (_, rowIndex) => {
-              const rowNumber = rowIndex + 1
-              return (
+
+          <div className="w-px h-6 bg-gray-300" />
+
+          {/* Text Alignment */}
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleTextAlign('left')}
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Align Left"
+            >
+              <AlignLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleTextAlign('center')}
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Align Center"
+            >
+              <AlignCenter className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleTextAlign('right')}
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Align Right"
+            >
+              <AlignRight className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="w-px h-6 bg-gray-300" />
+
+          {/* Number Formatting */}
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Text Format"
+            >
+              <Type className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Number Format"
+            >
+              <Hash className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Currency Format"
+            >
+              <DollarSign className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Percentage Format"
+            >
+              <Percent className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={selectedCells.length === 0}
+              className="h-8 w-8 p-0"
+              title="Date Format"
+            >
+              <Calendar className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {selectedCells.length > 0 && (
+            <div className="ml-auto text-sm text-gray-600">
+              {selectedCells.length} cell{selectedCells.length !== 1 ? 's' : ''} selected
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Main Grid Container - FIXED HEADERS WITH SCROLLING CONTENT */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Fixed Column Headers Row */}
+        <div className="flex-shrink-0 bg-white border-b border-gray-300 z-20">
+          <div className="flex">
+            {/* Top-left corner cell - FIXED */}
+            <div className="w-12 h-8 bg-gray-100 border-r border-gray-300 flex items-center justify-center flex-shrink-0">
+              <span className="text-xs font-medium text-gray-600">#</span>
+            </div>
+
+            {/* Column headers - SCROLL WITH CONTENT */}
+            <div className="flex">
+              {visibleColumns.map((col) => (
                 <div
-                  key={rowNumber}
-                  className="w-12 h-8 px-1 bg-gray-50 border-b border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors"
+                  key={col}
+                  className="w-24 h-8 px-2 bg-gray-100 border-r border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors flex-shrink-0"
                   onClick={() => {
-                    const rowCells = visibleColumns.map((col) => `${col}${rowNumber}`)
-                    onCellSelect(rowCells)
+                    const columnCells = Array.from({ length: totalRows }, (_, i) => `${col}${i + 1}`)
+                    onCellSelect(columnCells)
                   }}
                 >
-                  <span className="text-xs text-gray-600">{rowNumber}</span>
+                  <span className="text-sm font-medium text-gray-700">{col}</span>
                 </div>
-              )
-            })}
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Scrollable Content Area */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Fixed Column Headers */}
-          <div className="flex-shrink-0 bg-white border-b border-gray-300 z-10">
-            <div className="overflow-x-auto">
-              <div className="flex">
-                {visibleColumns.map((col) => (
+        {/* Scrollable Data Area - BOTH ROWS AND CELLS SCROLL TOGETHER */}
+        <div className="flex-1 overflow-auto custom-scrollbar" ref={gridRef}>
+          <div className="flex">
+            {/* Fixed Row Numbers Column */}
+            <div className="flex-shrink-0">
+              {Array.from({ length: totalRows }, (_, rowIndex) => {
+                const rowNumber = rowIndex + 1
+                return (
                   <div
-                    key={col}
-                    className="w-24 h-8 px-2 bg-gray-100 border-r border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors flex-shrink-0"
+                    key={rowNumber}
+                    className="w-12 h-8 px-1 bg-gray-50 border-r border-gray-300 border-b border-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors"
                     onClick={() => {
-                      const columnCells = Array.from({ length: totalRows }, (_, i) => `${col}${i + 1}`)
-                      onCellSelect(columnCells)
+                      const rowCells = visibleColumns.map((col) => `${col}${rowNumber}`)
+                      onCellSelect(rowCells)
                     }}
                   >
-                    <span className="text-sm font-medium text-gray-700">{col}</span>
+                    <span className="text-xs text-gray-600">{rowNumber}</span>
                   </div>
-                ))}
-              </div>
+                )
+              })}
             </div>
-          </div>
 
-          {/* Data Grid - Both horizontally and vertically scrollable */}
-          <div className="flex-1 overflow-auto" ref={gridRef}>
-            <div className="relative">
+            {/* Data Cells - SCROLL WITH ROW NUMBERS */}
+            <div className="flex-1">
               {Array.from({ length: totalRows }, (_, rowIndex) => {
                 const rowNumber = rowIndex + 1
                 return (
@@ -364,7 +562,15 @@ export function ExcelGrid({
                             isSelected && "bg-blue-100",
                             isActive && "ring-2 ring-blue-500 ring-inset",
                             !isSelected && !isActive && "hover:bg-green-50",
+                            cellData?.style?.bold && "font-bold",
+                            cellData?.style?.italic && "italic",
+                            cellData?.style?.underline && "underline"
                           )}
+                          style={{
+                            textAlign: cellData?.style?.textAlign || 'left',
+                            backgroundColor: cellData?.style?.backgroundColor,
+                            color: cellData?.style?.color
+                          }}
                           onClick={(e) => handleCellClick(cellId, e)}
                           onDoubleClick={() => handleCellDoubleClick(cellId)}
                         >
@@ -378,7 +584,7 @@ export function ExcelGrid({
                               className="h-6 text-xs border-0 p-1 focus:ring-0 bg-transparent w-full"
                             />
                           ) : (
-                            <div className="text-xs w-full overflow-hidden text-left">
+                            <div className="text-xs w-full overflow-hidden">
                               <div className="truncate">
                                 {cellValue ? highlightSearchText(cellValue) : ""}
                               </div>
