@@ -289,64 +289,55 @@ export function ExcelGrid({
         </div>
       </div>
 
-      {/* Main Grid Container */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Fixed Row Numbers Column */}
-        <div className="flex-shrink-0 bg-white border-r border-gray-300 z-20">
-          {/* Top-left corner cell */}
-          <div className="w-12 h-8 bg-gray-100 border-b border-gray-300 flex items-center justify-center">
-            <span className="text-xs font-medium text-gray-600">#</span>
-          </div>
-          
-          {/* Row numbers - scrollable vertically */}
-          <div className="overflow-y-auto h-full" style={{ height: 'calc(100vh - 200px)' }}>
-            {Array.from({ length: totalRows }, (_, rowIndex) => {
-              const rowNumber = rowIndex + 1
-              return (
+      {/* Main Grid Container with Vertical Scrolling */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Fixed Column Headers */}
+        <div className="flex-shrink-0 bg-white border-b border-gray-300 z-20">
+          <div className="flex">
+            {/* Top-left corner cell */}
+            <div className="w-12 h-8 bg-gray-100 border-r border-gray-300 flex items-center justify-center sticky left-0 z-30 flex-shrink-0">
+              <span className="text-xs font-medium text-gray-600">#</span>
+            </div>
+
+            {/* Column headers - scrollable horizontally */}
+            <div className="flex overflow-x-auto excel-scrollbar-horizontal">
+              {visibleColumns.map((col) => (
                 <div
-                  key={rowNumber}
-                  className="w-12 h-8 px-1 bg-gray-50 border-b border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors"
+                  key={col}
+                  className="w-24 h-8 px-2 bg-gray-100 border-r border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors flex-shrink-0"
                   onClick={() => {
-                    const rowCells = visibleColumns.map((col) => `${col}${rowNumber}`)
-                    onCellSelect(rowCells)
+                    const columnCells = Array.from({ length: totalRows }, (_, i) => `${col}${i + 1}`)
+                    onCellSelect(columnCells)
                   }}
                 >
-                  <span className="text-xs text-gray-600">{rowNumber}</span>
+                  <span className="text-sm font-medium text-gray-700">{col}</span>
                 </div>
-              )
-            })}
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Scrollable Content Area */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Fixed Column Headers */}
-          <div className="flex-shrink-0 bg-white border-b border-gray-300 z-10">
-            <div className="overflow-x-auto">
-              <div className="flex">
-                {visibleColumns.map((col) => (
+        {/* Scrollable Data Area */}
+        <div className="flex-1 overflow-auto excel-scrollbar" ref={gridRef}>
+          <div className="relative">
+            {/* Data Rows - All 100 rows */}
+            {Array.from({ length: totalRows }, (_, rowIndex) => {
+              const rowNumber = rowIndex + 1
+              return (
+                <div key={rowNumber} className="flex border-b border-gray-200 hover:bg-green-25 transition-colors">
+                  {/* Row number - sticky on left */}
                   <div
-                    key={col}
-                    className="w-24 h-8 px-2 bg-gray-100 border-r border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors flex-shrink-0"
+                    className="w-12 h-8 px-1 bg-gray-50 border-r border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors sticky left-0 z-10 flex-shrink-0"
                     onClick={() => {
-                      const columnCells = Array.from({ length: totalRows }, (_, i) => `${col}${i + 1}`)
-                      onCellSelect(columnCells)
+                      const rowCells = visibleColumns.map((col) => `${col}${rowNumber}`)
+                      onCellSelect(rowCells)
                     }}
                   >
-                    <span className="text-sm font-medium text-gray-700">{col}</span>
+                    <span className="text-xs text-gray-600">{rowNumber}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
 
-          {/* Data Grid - Both horizontally and vertically scrollable */}
-          <div className="flex-1 overflow-auto" ref={gridRef}>
-            <div className="relative">
-              {Array.from({ length: totalRows }, (_, rowIndex) => {
-                const rowNumber = rowIndex + 1
-                return (
-                  <div key={rowNumber} className="flex border-b border-gray-200 hover:bg-green-25 transition-colors">
+                  {/* Data cells - scrollable horizontally */}
+                  <div className="flex">
                     {visibleColumns.map((col) => {
                       const cellId = `${col}${rowNumber}`
                       const cellData = gridData[cellId]
@@ -360,7 +351,7 @@ export function ExcelGrid({
                           key={cellId}
                           id={`cell-${cellId}`}
                           className={cn(
-                            "w-24 h-8 border-r border-gray-200 cursor-cell relative flex items-center flex-shrink-0 px-1",
+                            "w-24 h-8 border-r border-gray-200 border-b border-gray-200 cursor-cell relative flex items-center flex-shrink-0",
                             isSelected && "bg-blue-100",
                             isActive && "ring-2 ring-blue-500 ring-inset",
                             !isSelected && !isActive && "hover:bg-green-50",
@@ -378,19 +369,17 @@ export function ExcelGrid({
                               className="h-6 text-xs border-0 p-1 focus:ring-0 bg-transparent w-full"
                             />
                           ) : (
-                            <div className="text-xs w-full overflow-hidden text-left">
-                              <div className="truncate">
-                                {cellValue ? highlightSearchText(cellValue) : ""}
-                              </div>
+                            <div className="text-xs w-full px-1 overflow-hidden">
+                              <div className="truncate">{cellValue ? highlightSearchText(cellValue) : ""}</div>
                             </div>
                           )}
                         </div>
                       )
                     })}
                   </div>
-                )
-              })}
-            </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
